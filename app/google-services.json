@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1036871203286",
+    "project_id": "english-ai-teacher-15694",
+    "storage_bucket": "english-ai-teacher-15694.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036871203286:android:dc1e1e63c10d9944b24c77",
+        "android_client_info": {
+          "package_name": "com.abhishek.englishteacher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036871203286-t9osms3gtv7ofdvpjonlhaabjbmpnkf7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abhishek.englishteacher",
+            "certificate_hash": "b834a4ad5dcd3362fc0e16fed6e65ff180f5d290"
+          }
+        },
+        {
+          "client_id": "1036871203286-1ampsid8c7lhf4kr7791es42clppgtfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbkFTbY837wOUKRQugYDByyaUhZ9Y3oRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036871203286-1ampsid8c7lhf4kr7791es42clppgtfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
