@@ -1,5 +1,9 @@
 package com.abhishek.englishteacher.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.abhishek.englishteacher.utils.NetworkMonitor
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,9 +16,10 @@ enum class LearningMode {
     HINDI_TO_ENGLISH
 }
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = GeminiRepository()
+    private val networkMonitor = NetworkMonitor(application)
+    private val repository = GeminiRepository(networkMonitor)
     var learningMode by mutableStateOf(
         LearningMode.ENGLISH_GRAMMAR
     )
