@@ -4,8 +4,9 @@ import com.abhishek.englishteacher.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import kotlinx.coroutines.delay
+import com.abhishek.englishteacher.utils.NetworkMonitor
 
-class GeminiRepository {
+class GeminiRepository(private val networkMonitor: NetworkMonitor) {
 
     private val model = GenerativeModel(
         modelName = "gemini-2.5-flash",
@@ -80,9 +81,18 @@ $sentence
 """.trimIndent()
             }
 
-        val response = generateWithRetry(prompt)
+        val isOnline = networkMonitor.isOnline()
 
-        val text = response.text ?: ""
+        val text = if (isOnline) {
+             val response = generateWithRetry(prompt)
+             response.text ?: ""
+        } else {
+             try {
+                 generateOffline(prompt)
+             } catch (e: Exception) {
+                 e.message ?: ""
+             }
+        }
 
         val corrected = text
             .substringAfter("Correct:")
@@ -129,10 +139,32 @@ $userMessage
 Emma's response:
 """.trimIndent()
 
-        val response = generateWithRetry(prompt)
+        val isOnline = networkMonitor.isOnline()
+        return if (isOnline) {
+             val response = generateWithRetry(prompt)
+             response.text?.trim() ?: "That's interesting! Tell me more."
+        } else {
+             try {
+                 generateOffline(prompt)
+             } catch (e: Exception) {
+                 e.message ?: "That's interesting! Tell me more."
+             }
+        }
+    }
 
-        return response.text?.trim()
-            ?: "That's interesting! Tell me more."
+    // =====================================================
+    // OFFLINE GEMINI REQUEST (ML Kit)
+    // =====================================================
+    
+    private suspend fun generateOffline(
+        prompt: String
+    ): String {
+         val generativeModel = com.google.mlkit.genai.prompt.Generation.getClient()
+         val request = com.google.mlkit.genai.prompt.GenerateContentRequest.Builder(
+               com.google.mlkit.genai.prompt.TextPart(prompt)
+         ).build()
+         val response = generativeModel.generateContent(request)
+         return response.candidates.firstOrNull()?.text ?: ""
     }
 
     // =====================================================

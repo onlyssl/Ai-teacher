@@ -92,7 +92,9 @@ fun SpeakingScreen(
     // =====================================================
 
     val geminiRepository = remember {
-        GeminiRepository()
+        val app = context.applicationContext as android.app.Application
+        val monitor = com.abhishek.englishteacher.utils.NetworkMonitor(app)
+        GeminiRepository(monitor)
     }
 
     val coroutineScope = rememberCoroutineScope()
